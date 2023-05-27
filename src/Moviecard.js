@@ -19,22 +19,35 @@ class Moviecard extends React.Component {
 
 		 There are two types of forms in setState function
 		 */
-		/* Form 01
+		/* Form 01*/
+		if (this.state.stars >= 5) {
+			return;
+		}
 		this.setState({
 			stars: this.state.stars + 0.5,
-		}); */
+		});
 		//Form 02
 
-		this.setState((prevState) => {
-			return {
-				stars: prevState.stars + 0.5,
-			};
-		});
+		// this.setState((prevState) => {
+		// 	return {
+		// 		stars: prevState.stars + 0.5,
+		// 	};
+		// });
 
 		/* this.state.stars += 0.5;
 		console.log('this.state.stars', this.state.stars); */
 	};
+	decStars = () => {
+		if (this.state.stars <= 0) {
+			return;
+		}
+		this.setState({
+			stars: this.state.stars - 0.5,
+		});
+		console.log(this.state.stars);
+	};
 	render() {
+		console.log('Inside render', this.state.stars);
 		const { title, plot, price, ratings, stars } = this.state;
 		return (
 			<div className="main">
@@ -57,6 +70,7 @@ class Moviecard extends React.Component {
 									className="str-btn"
 									src="https://cdn-icons-png.flaticon.com/128/56/56889.png"
 									alt="decerase"
+									onClick={this.decStars}
 								/>
 								<img
 									className="stars"

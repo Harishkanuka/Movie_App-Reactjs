@@ -91,6 +91,7 @@ footer.starCount {
 	width: 15px;
 	height: 15px;
 	padding: 0px 10px 0px 10px;
+	cursor: pointer;
 }
 .footer button {
 	font-size: 15px;
