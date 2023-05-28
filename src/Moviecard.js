@@ -1,54 +1,9 @@
 import React from 'react';
 
 class Moviecard extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			title: 'The Avengers End Game',
-			plot: 'SuperNatural poers are shown in this Movie',
-			price: 199,
-			ratings: 8.8,
-			stars: 0,
-		};
-		/* We don't need to bind if we use arrow functions coz arrow functions implicitly binded
-		 this.addStars = this.addStars.bind(this); */
-	}
-	addStars = () => {
-		/* setState function gives us the fexibilty to update state 
-		 and re-render the component.
-
-		 There are two types of forms in setState function
-		 */
-		/* Form 01*/
-		if (this.state.stars >= 5) {
-			return;
-		}
-		this.setState({
-			stars: this.state.stars + 0.5,
-		});
-		//Form 02
-
-		// this.setState((prevState) => {
-		// 	return {
-		// 		stars: prevState.stars + 0.5,
-		// 	};
-		// });
-
-		/* this.state.stars += 0.5;
-		console.log('this.state.stars', this.state.stars); */
-	};
-	decStars = () => {
-		if (this.state.stars <= 0) {
-			return;
-		}
-		this.setState({
-			stars: this.state.stars - 0.5,
-		});
-		console.log(this.state.stars);
-	};
 	render() {
-		console.log('Inside render', this.state.stars);
-		const { title, plot, price, ratings, stars } = this.state;
+		const { title, plot, price, ratings, stars, fav, isInCart } =
+			this.props.movies;
 		return (
 			<div className="main">
 				<div className="movie-card">
@@ -85,8 +40,32 @@ class Moviecard extends React.Component {
 								/>
 								<span>{stars}</span>
 							</div>
-							<div className="favourite-btn">Favourite</div>
-							<div className="cart-btn">Add to cart</div>
+							{fav ? (
+								<div
+									className="favourite-btn"
+									onClick={this.handleFav}>
+									Favourite
+								</div>
+							) : (
+								<div
+									className="unfavourite-btn"
+									onClick={this.handleFav}>
+									Un-Favourite
+								</div>
+							)}
+							{isInCart ? (
+								<div
+									className="cart-btn"
+									onClick={this.handleAddToCart}>
+									Add to cart
+								</div>
+							) : (
+								<div
+									className="removecart-btn"
+									onClick={this.handleAddToCart}>
+									Remove from cart
+								</div>
+							)}
 						</div>
 					</div>
 				</div>
