@@ -1,76 +1,76 @@
 import React from 'react';
 
-class Moviecard extends React.Component {
+class MovieCard extends React.Component {
 	render() {
-		const { title, plot, price, ratings, stars, fav, isInCart } =
+		const { movies, onIncStars, onClickFav, onClickAddtocart, onDecStars } =
+			this.props;
+		const { title, plot, poster, price, rating, stars, fav, isInCart } =
 			this.props.movies;
-		return (
-			<div className="main">
-				<div className="movie-card">
-					<div className="left">
-						<img
-							src="https://images.unsplash.com/photo-1561149877-84d268ba65b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YXZlbmdlcnN8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=600&q=60"
-							alt="poster"
-						/>
-					</div>
-					<div className="right">
-						<div className="title">{title} </div>
-						<div className="plot">{plot}</div>
-						<div className="price">Rs.{price}</div>
 
-						<div className="footer">
-							<div className="ratings">{ratings}</div>
-							<div className="star-dis">
-								<img
-									className="str-btn"
-									src="https://cdn-icons-png.flaticon.com/128/56/56889.png"
-									alt="decerase"
-									onClick={this.decStars}
-								/>
-								<img
-									className="stars"
-									alt="star"
-									src="https://cdn-icons-png.flaticon.com/128/477/477406.png"
-								/>
-								<img
-									className="str-btn"
-									src="https://cdn-icons-png.flaticon.com/128/1237/1237946.png"
-									alt="increase"
-									onClick={this.addStars}
-								/>
-								<span>{stars}</span>
-							</div>
-							{fav ? (
-								<div
-									className="favourite-btn"
-									onClick={this.handleFav}>
-									Favourite
-								</div>
-							) : (
-								<div
-									className="unfavourite-btn"
-									onClick={this.handleFav}>
-									Un-Favourite
-								</div>
-							)}
-							{isInCart ? (
-								<div
-									className="cart-btn"
-									onClick={this.handleAddToCart}>
-									Add to cart
-								</div>
-							) : (
-								<div
-									className="removecart-btn"
-									onClick={this.handleAddToCart}>
-									Remove from cart
-								</div>
-							)}
+		return (
+			//Movie Card
+			<div className="movie-card">
+				{/**Left section of Movie Card */}
+				<div className="left">
+					<img alt="poster" src={poster} />
+				</div>
+
+				{/**Right section Movie Card */}
+				<div className="right">
+					{/**Title, plot, price of the movie */}
+					<div className="title">{title}</div>
+					<div className="plot">{plot}</div>
+					<div className="price">Rs. {price}</div>
+
+					{/**Footer starts here with ratings, stars and buttons */}
+					<div className="footer">
+						<div className="rating">{rating}</div>
+
+						{/**Star image with increase and decrease buttons and star count */}
+						<div className="star-dis">
+							<img
+								className="str-btn"
+								alt="Decrease"
+								src="https://cdn-icons-png.flaticon.com/128/2801/2801932.png"
+								onClick={() => onDecStars(movies)}
+							/>
+							<img
+								className="stars"
+								alt="stars"
+								src="https://cdn-icons-png.flaticon.com/128/2107/2107957.png"
+							/>
+							<img
+								className="str-btn"
+								alt="increase"
+								src="https://cdn-icons-png.flaticon.com/128/2997/2997933.png"
+								// No binding required as addStars() is an arrow function
+								onClick={() => onIncStars(movies)}
+							/>
+							<span className="starCount">{stars}</span>
 						</div>
+
+						{/**conditional rendering on Favourite button */}
+						<button
+							className={
+								fav ? 'unfavourite-btn' : 'favourite-btn'
+							}
+							onClick={() => onClickFav(movies)}>
+							{fav ? 'Un-favourite' : 'Favourite'}
+						</button>
+
+						{/**Conditional Rendering on Add to Cart Button */}
+						<button
+							className={
+								isInCart ? 'unfavourite-btn' : 'cart-btn'
+							}
+							onClick={() => onClickAddtocart(movies)}>
+							{isInCart ? 'Remove from Cart' : 'Add to Cart'}
+						</button>
 					</div>
 				</div>
 			</div>
 		);
 	}
 }
-export default Moviecard;
+
+export default MovieCard;

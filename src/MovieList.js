@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import Moviecards from './Moviecard';
-class MovieList extends Component {
+import React from 'react';
+import MovieCard from './MovieCard';
+
+class MovieList extends React.Component {
 	constructor() {
 		super();
+		//Creating the state object
 		this.state = {
 			movies: [
 				{
@@ -11,7 +13,7 @@ class MovieList extends Component {
 					poster: 'https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg',
 					rating: '8.0',
 					price: 99,
-					star: 0,
+					stars: 0,
 					fav: false,
 					isInCart: false,
 				},
@@ -21,79 +23,87 @@ class MovieList extends Component {
 					poster: 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg',
 					rating: '9.0',
 					price: 199,
-					star: 0,
+					stars: 0,
 					fav: false,
 					isInCart: false,
 				},
 				{
 					title: 'Iron Man',
-					plot: 'After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.',
+					plot: 'After being held captive in an Afghan cave, billionaire engineer Tony starsk creates a unique weaponized suit of armor to fight evil.',
 					poster: 'https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg',
 					rating: '7.9',
 					price: 139,
-					star: 0,
+					stars: 0,
 					fav: false,
 					isInCart: false,
 				},
 			],
 		};
-		/* We don't need to bind if we use arrow functions coz arrow functions implicitly binded
-		 this.addStars = this.addStars.bind(this); */
 	}
 
-	addStars = () => {
-		/* setState function gives us the fexibilty to update state 
-		 and re-render the component.
+	handleAddStars = (movie) => {
+		const { movies } = this.state;
+		const movieId = movies.indexOf(movie);
 
-		 There are two types of forms in setState function
-		 */
-		/* Form 01*/
-		if (this.state.stars >= 5) {
-			return;
+		if (movies[movieId].stars < 5) {
+			movies[movieId].stars += 0.5;
 		}
+
 		this.setState({
-			stars: this.state.stars + 0.5,
+			movies,
 		});
-		//Form 02
-
-		// this.setState((prevState) => {
-		// 	return {
-		// 		stars: prevState.stars + 0.5,
-		// 	};
-		// });
-
-		/* this.state.stars += 0.5;
-		console.log('this.state.stars', this.state.stars); */
 	};
-	decStars = () => {
-		if (this.state.stars <= 0) {
-			return;
+
+	handleDecStars = (movie) => {
+		const { movies } = this.state;
+		const movieId = movies.indexOf(movie);
+
+		if (movies[movieId].stars > 0) {
+			movies[movieId].stars -= 0.5;
 		}
+
 		this.setState({
-			stars: this.state.stars - 0.5,
+			movies,
 		});
 	};
-	handleFav = () => {
+
+	handleToggleFav = (movie) => {
+		const { movies } = this.state;
+		const movieId = movies.indexOf(movie);
+
+		movies[movieId].fav = !movies[movieId].fav;
+
 		this.setState({
-			fav: !this.state.fav,
+			movies,
 		});
 	};
-	handleAddToCart = () => {
+
+	handleAddtocart = (movie) => {
+		const { movies } = this.state;
+		const movieId = movies.indexOf(movie);
+
+		movies[movieId].isInCart = !movies[movieId].isInCart;
+
 		this.setState({
-			isInCart: !this.state.isInCart,
+			movies,
 		});
 	};
 	render() {
-		// const { title, plot, price, ratings, stars, fav, isInCart } =
-		// 	this.state;
-
 		const { movies } = this.state;
+
 		return (
-			<>
-				{movies.map((movie) => (
-					<Moviecards movies={movie} />
+			<div className="main">
+				{movies.map((movie, index) => (
+					<MovieCard
+						movies={movie}
+						key={index}
+						onIncStars={this.handleAddStars}
+						onDecStars={this.handleDecStars}
+						onClickFav={this.handleToggleFav}
+						onClickAddtocart={this.handleAddtocart}
+					/>
 				))}
-			</>
+			</div>
 		);
 	}
 }
